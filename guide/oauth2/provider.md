@@ -119,7 +119,7 @@ Something along the lines of this:
 			 * Add a log entry recording which client make a request on behalf of
 			 * which user. (Just a demo showing user_id and client_id acess..)
 			 */
-			Kohana::$log->add(Log::INFO, 'OAuth2 request made on behalf of \':user_id\' from \':client_id\', array(
+			Kohana::$log->add(Log::INFO, 'OAuth2 request made on behalf of \':user_id\' from \':client_id\'', array(
 				':user_id'   => $this->_oauth_user_id,
 				':client_id' => $this->_oauth_client_id,
 			));
