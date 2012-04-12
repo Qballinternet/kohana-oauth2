@@ -22,9 +22,11 @@ abstract class Kohana_OAuth2_Provider_GrantType {
 
 		if ($grant_type == '')
 			throw new OAuth2_Exception_UnsupportedGrantType('Invalid or unknown grant type');
-
+		
+		$grant_type = str_replace(' ', '_', ucwords(str_replace('_', ' ', $grant_type)));		
+		
 		$class = 'OAuth2_Provider_GrantType_'.$grant_type;
-
+		
 		if ( ! class_exists($class))
 			throw new OAuth2_Exception_UnsupportedGrantType('Unknown or invalid grant_type');
 
