@@ -27,7 +27,7 @@ class Kohana_OAuth2_Provider_GrantType_Refresh_Token extends OAuth2_Provider_Gra
 		// Prepare validation
 		$validation = Validation::factory($params)
 			->rule('refresh_token', 'not_empty')
-			->rule('refresh_token', 'uuid::valid');
+			->rule('refresh_token', 'UUID::valid');
 //			->rule('scope', 'in_array', array(':value', $this->_config->scopes));
 
 		$valid = $validation->check();

@@ -27,7 +27,7 @@ class Kohana_OAuth2_Provider_GrantType_Authorization_Code extends OAuth2_Provide
 		// Prepare validation
 		$validation = Validation::factory($params)
 			->rule('code',         'not_empty')
-			->rule('code',         'uuid::valid')
+			->rule('code',         'UUID::valid')
 			->rule('redirect_uri', 'not_empty')
 			->rule('redirect_uri', 'url');
 

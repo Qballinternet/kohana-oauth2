@@ -65,7 +65,7 @@ class Kohana_OAuth2_Provider {
 
 		$validation = Validation::factory($request_params)
 			->rule('client_id',     'not_empty')
-			->rule('client_id',     'uuid::valid')
+			->rule('client_id',     'UUID::valid')
 			->rule('response_type', 'not_empty')
 			->rule('response_type', 'in_array',  array(':value', $this->_config['supported_response_types']))
 			->rule('scope',         'in_array',  array(':value', $this->_config['scopes']))
