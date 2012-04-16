@@ -8,12 +8,12 @@
  * @copyright  (c) 2011 Managed I.T.
  * @license    https://github.com/managedit/kohana-oauth2/blob/master/LICENSE.md
  */
-class Minion_Task_OAuth2_Cleanup extends Minion_Task
+class Task_OAuth2_Cleanup extends Minion_Task
 {
 	/**
 	 * Clears the cache
 	 */
-	public function execute(array $config)
+	protected function _execute(array $config)
 	{
 		$access_tokens = Model_OAuth2_Access_Token::deleted_expired_tokens();
 		$refresh_tokens = Model_OAuth2_Refresh_Token::deleted_expired_tokens();
