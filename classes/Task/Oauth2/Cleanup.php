@@ -8,7 +8,7 @@
  * @copyright  (c) 2011 Managed I.T.
  * @license    https://github.com/managedit/kohana-oauth2/blob/master/LICENSE.md
  */
-class Task_OAuth2_Cleanup extends Minion_Task
+class Task_Oauth2_Cleanup extends Minion_Task
 {
 	/**
 	 * Clears the cache
