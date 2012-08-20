@@ -54,8 +54,9 @@ abstract class Kohana_OAuth2_Controller extends Controller {
 		}
 		catch (OAuth2_Exception_InvalidToken $e)
 		{
-			$this->response->headers('WWW-Authenticate', 'Bearer');
-			throw new HTTP_Exception_401('Authentication Failed');
+			$exception = new HTTP_Exception_401('Authentication Failed');
+			$exception->authenticate( 'Bearer');			
+			throw $exception;
 		}
 	}
 
