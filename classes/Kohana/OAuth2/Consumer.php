@@ -33,7 +33,7 @@ abstract class Kohana_OAuth2_Consumer {
 
 	/**
 	 * OAuth2 Factory
-	 * 
+	 *
 	 * @param string $provider  Provider name
 	 * @param array  $token     Optional token to use
 	 */
@@ -44,7 +44,7 @@ abstract class Kohana_OAuth2_Consumer {
 
 	/**
 	 * OAuth2 Constructor
-	 * 
+	 *
 	 * @param string $provider  Provider name
 	 * @param array  $token     Optional token to use
 	 */
@@ -53,7 +53,7 @@ abstract class Kohana_OAuth2_Consumer {
 		$this->_config = Kohana::$config->load('oauth2.consumer');
 		$this->_provider = $provider;
 		$this->_grant_type = OAuth2_Consumer_GrantType::factory($this->_config[$provider]['grant_type'], $provider);
-		
+
 		if ($token === NULL)
 		{
 			$this->_token = $this->_retrieve_token();
@@ -73,8 +73,12 @@ abstract class Kohana_OAuth2_Consumer {
 	 */
 	public function execute(Request $request, $token = NULL)
 	{
-		Kohana::$log->add(Log::DEBUG, "OAuth2: Attempting to make request");
-		
+		// Log oauth2 attempt on develop environment only to prevent log spam
+		if (Kohana::$environment === Kohana::DEVELOPMENT)
+		{
+			Kohana::$log->add(Log::DEBUG, "OAuth2: Attempting to make request");
+		}
+
 		if (Kohana::$profiling === TRUE AND class_exists('Profiler', FALSE))
 		{
 			// Start a new benchmark
@@ -94,9 +98,9 @@ abstract class Kohana_OAuth2_Consumer {
 				// Stop the benchmark
 				Profiler::stop($benchmark);
 			}
-			
+
 			Kohana::$log->add(Log::DEBUG, "OAuth2: No token available");
-			
+
 			throw new OAuth2_Exception_InvalidToken('No token available');
 		}
 
@@ -104,7 +108,7 @@ abstract class Kohana_OAuth2_Consumer {
 		try
 		{
 			$result = $this->_execute($request);
-			
+
 			if (isset($benchmark))
 			{
 				// Stop the benchmark
@@ -127,9 +131,9 @@ abstract class Kohana_OAuth2_Consumer {
 			try
 			{
 				$this->exchange_refresh_token();
-				
+
 				$result = $this->_execute($request);
-				
+
 				if (isset($benchmark))
 				{
 					// Stop the benchmark
@@ -145,9 +149,9 @@ abstract class Kohana_OAuth2_Consumer {
 					// Stop the benchmark
 					Profiler::stop($benchmark);
 				}
-				
+
 				Kohana::$log->add(Log::DEBUG, "OAuth2: refresh_token invalid.");
-				
+
 				throw new OAuth2_Exception_InvalidToken('No token available');
 			}
 		}
@@ -160,7 +164,7 @@ abstract class Kohana_OAuth2_Consumer {
 
 		// If we get here, our token and refresh token are both expired.
 		Kohana::$log->add(Log::DEBUG, "OAuth2: Ran out of options, unable to execute request.");
-		
+
 		throw new OAuth2_Exception_InvalidToken('No token available');
 	}
 
@@ -172,7 +176,7 @@ abstract class Kohana_OAuth2_Consumer {
 	protected function _execute($request)
 	{
 		$request->headers('Authorization', $this->_token['token_type'].' '.$this->_token['access_token']);
-		
+
 		try
 		{
 			$response = $request->execute();
@@ -194,7 +198,7 @@ abstract class Kohana_OAuth2_Consumer {
 
 	/**
 	 * Given a set of grant type options, obtains a token from the provider.
-	 * 
+	 *
 	 * @param array $grant_type_options Array of options, specific to each grant type.
 	 */
 	public function request_token($grant_type_options = array())
@@ -202,7 +206,7 @@ abstract class Kohana_OAuth2_Consumer {
 		$this->_token = $this->_grant_type->request_token($grant_type_options);
 
 		$this->_store_token($this->_token);
-		
+
 		return $this->_token;
 	}
 
@@ -218,33 +222,33 @@ abstract class Kohana_OAuth2_Consumer {
 		));
 
 		$this->_store_token($this->_token);
-		
+
 		return $this->_token;
 	}
 
 	/**
 	 * Used to retrieve a token from persistent storage.
-	 * 
+	 *
 	 * Defaults to storing the token in the users Session.
 	 */
 	protected function _retrieve_token()
 	{
 		return Session::instance()->get('oauth2.'.$this->_provider.'.token', NULL);
 	}
-	
+
 	/**
 	 * Used to save a token to persistent storage.
-	 * 
+	 *
 	 * Defaults to storing the token in the users Session.
 	 */
 	protected function _store_token($token)
 	{
 		Session::instance()->set('oauth2.'.$this->_provider.'.token', $token);
 	}
-	
+
 	/**
 	 * Accessor method for retrieving to the current token.
-	 * 
+	 *
 	 * @todo Is this really needed? Remove if not.
 	 */
 	public function get_token()
@@ -254,7 +258,7 @@ abstract class Kohana_OAuth2_Consumer {
 
 	/**
 	 * Accessor method for retrieving to the current grant type.
-	 * 
+	 *
 	 * @todo Is this really needed? Remove if not.
 	 */
 	public function get_grant_type()
