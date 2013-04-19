@@ -99,7 +99,11 @@ abstract class Kohana_OAuth2_Consumer {
 				Profiler::stop($benchmark);
 			}
 
-			Kohana::$log->add(Log::DEBUG, "OAuth2: No token available");
+			// Log on develop
+			if (Kohana::$environment === Kohana::DEVELOPMENT)
+			{
+				Kohana::$log->add(Log::DEBUG, "OAuth2: No token available");
+			}
 
 			throw new OAuth2_Exception_InvalidToken('No token available');
 		}
@@ -119,14 +123,23 @@ abstract class Kohana_OAuth2_Consumer {
 		}
 		catch (OAuth2_Exception_InvalidToken $e)
 		{
-			Kohana::$log->add(Log::DEBUG, "OAuth2: access_token invalid. Checking for refresh_token.");
+			// Log on develop
+			if (Kohana::$environment === Kohana::DEVELOPMENT)
+			{
+				Kohana::$log->add(Log::DEBUG, "OAuth2: access_token invalid. Checking for refresh_token.");
+			}
 			// Failure .. Move on
 		}
 
 		// Do we have a refresh token?
 		if (isset($this->_token['refresh_token']))
 		{
-			Kohana::$log->add(Log::DEBUG, "OAuth2: refresh_token available. Attemping to exchange it for a fresh access_token.");
+			// Log on develop
+			if (Kohana::$environment === Kohana::DEVELOPMENT)
+			{
+				Kohana::$log->add(Log::DEBUG, "OAuth2: refresh_token available. Attemping to exchange it for a fresh access_token.");
+			}
+
 			// Try to exchange a refresh token for an access token
 			try
 			{
@@ -150,7 +163,11 @@ abstract class Kohana_OAuth2_Consumer {
 					Profiler::stop($benchmark);
 				}
 
-				Kohana::$log->add(Log::DEBUG, "OAuth2: refresh_token invalid.");
+				// Log on develop
+				if (Kohana::$environment === Kohana::DEVELOPMENT)
+				{
+					Kohana::$log->add(Log::DEBUG, "OAuth2: refresh_token invalid.");
+				}
 
 				throw new OAuth2_Exception_InvalidToken('No token available');
 			}
