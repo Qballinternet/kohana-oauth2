@@ -276,12 +276,25 @@ abstract class Kohana_OAuth2_Consumer {
 	/**
 	 * Accessor method for retrieving to the current grant type.
 	 *
-	 * @todo Is this really needed? Remove if not.
+	 * @return  OAuth2_Consumer_GrantType
 	 */
 	public function get_grant_type()
 	{
 		return $this->_grant_type;
 	}
+
+	/**
+	 * Set different grant type than config specifies. Useful for re-using
+	 * the same instance, but temporary with different auth method.
+	 *
+	 * @param   OAuth2_Consumer_GrantType $grant_type
+	 * @return  Kohana_OAuth2_Consumer
+	 */
+	public function set_grant_type(OAuth2_Consumer_GrantType $grant_type)
+	{
+		$this->_grant_type = $grant_type;
+	}
+
 
 	/**
 	 * Accessor method for retrieving to the APIs base URI
