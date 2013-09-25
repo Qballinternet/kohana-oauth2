@@ -52,10 +52,18 @@ abstract class Kohana_OAuth2_Controller extends Controller {
 			$this->_oauth_client = $client;
 			$this->_oauth_user_id = $user_id;
 		}
+		// Invalid token
 		catch (OAuth2_Exception_InvalidToken $e)
 		{
 			$exception = new HTTP_Exception_401('Authentication Failed');
-			$exception->authenticate( 'Bearer');			
+			$exception->authenticate( 'Bearer');
+			throw $exception;
+		}
+		// Invalid client
+		catch (OAuth2_Exception_InvalidClient $e)
+		{
+			$exception = new HTTP_Exception_401('Authentication Failed');
+			$exception->authenticate( 'Bearer');
 			throw $exception;
 		}
 	}
