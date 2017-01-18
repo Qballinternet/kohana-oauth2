@@ -33,6 +33,7 @@ abstract class Kohana_OAuth2_Consumer_GrantType_Refresh_Token extends OAuth2_Con
 		switch ($response->headers('content-type'))
 		{
 			case 'application/json':
+			case 'application/json; charset=UTF-8':
 				$x = (array) json_decode($response->body());
 				break;
 			case 'application/x-www-form-urlencoded': # Stupid github -_-
